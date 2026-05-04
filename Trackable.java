@@ -1,9 +1,10 @@
 /*
- * Name: Darrien Raines-Boswell
- * Date: April 16, 2026
- * Purpose: Defines the interface used to provide a tracking summary for the application.
+ * Purpose: Interface for tracking items
  */
 
 public interface Trackable {
-    String getTrackingSummary();
+
+    default void trackItem() {
+        System.out.println("Tracking item in inventory...");
+    }
 }
