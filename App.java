@@ -1,85 +1,207 @@
 /*
  * Name: Darrien Raines-Boswell
  * Date: May 4, 2026
- * Purpose: Main application file - Week 3
+ * Purpose: Week 4 Project - Firearm Inventory Application using SQLite CRUD operations.
  */
 
-import java.util.ArrayList;
+import java.sql.*;
+import java.util.Scanner;
 
 public class App {
+
+    private static final String DB_URL = "jdbc:sqlite:frontline_inventory.db";
+
     public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
 
-        System.out.println("=================================");
-        System.out.println("Week 3 Project - Firearm Inventory");
-        System.out.println("Darrien Raines-Boswell");
-        System.out.println("=================================\n");
+        createTable();
 
-        // Attachments
-        Attachment tlr8x = new Attachment("TLR-8X Tactical Light");
-        Attachment comp = new Attachment("Strike Industries Compensator");
-        Attachment hogueGrip = new Attachment("Hogue Beavertail Grip");
+        System.out.println("======================================");
+        System.out.println(" Project Week 4 - Database Interaction");
+        System.out.println(" Frontline Defense Inventory System");
+        System.out.println(" Darrien Raines-Boswell");
+        System.out.println("======================================");
+        System.out.println("Welcome! Manage firearm inventory using CRUD operations.");
 
-        Attachment surefire = new Attachment("SureFire Tactical Light");
-        Attachment holosun507 = new Attachment("Holosun 507Comp Green Dot");
+        int choice;
 
-        Attachment extMag = new Attachment("Extended Glock 19 Mag (15rd)");
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add Firearm");
+            System.out.println("2. View All Firearms");
+            System.out.println("3. Update Firearm");
+            System.out.println("4. Delete Firearm");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
 
-        Attachment scope = new Attachment("WestHunter 1-6x24 Scope");
-        Attachment foregrip = new Attachment("Magpul Foregrip");
-        Attachment bipod = new Attachment("Magpul Bipod");
-        Attachment frt = new Attachment("FRT Trigger");
+            choice = input.nextInt();
+            input.nextLine(); // clear buffer
 
-        Attachment suppressor = new Attachment("SG30 Suppressor");
-        Attachment angledGrip = new Attachment("Magpul Angled Grip");
-        Attachment brace = new Attachment("Maxim CQB Brace");
-        Attachment holo510 = new Attachment("Holosun 510C + 3x Magnifier");
+            switch (choice) {
+                case 1:
+                    addFirearm(input);
+                    break;
+                case 2:
+                    viewFirearms();
+                    break;
+                case 3:
+                    updateFirearm(input);
+                    break;
+                case 4:
+                    deleteFirearm(input);
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
 
-        Attachment romeo5 = new Attachment("Sig Sauer Romeo 5");
+        } while (choice != 5);
 
-        // Pistols
-        Pistol glock19x = new Pistol("Glock", "19X", "9mm");
-        glock19x.addAttachment(tlr8x);
-        glock19x.addAttachment(comp);
-        glock19x.addAttachment(hogueGrip);
+        input.close();
+    }
 
-        Pistol canik = new Pistol("Canik", "TTI Combat", "9mm");
-        canik.addAttachment(surefire);
-        canik.addAttachment(holosun507);
+    // CREATE TABLE
+    public static void createTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS firearms ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "name TEXT NOT NULL, "
+                + "caliber TEXT NOT NULL, "
+                + "accessory TEXT NOT NULL, "
+                + "purpose TEXT NOT NULL"
+                + ");";
 
-        Pistol glock26 = new Pistol("Glock", "26", "9mm");
-        glock26.addAttachment(hogueGrip);
-        glock26.addAttachment(extMag);
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement()) {
 
-        // Rifles
-        Rifle db15 = new Rifle("Diamondback", "DB15", "5.56");
-        db15.addAttachment(scope);
-        db15.addAttachment(foregrip);
-        db15.addAttachment(bipod);
-        db15.addAttachment(frt);
+            stmt.execute(sql);
 
-        Rifle blackout = new Rifle("AR Platform", "10.5 300BLK", ".300 Blackout");
-        blackout.addAttachment(suppressor);
-        blackout.addAttachment(angledGrip);
-        blackout.addAttachment(brace);
-        blackout.addAttachment(holo510);
+        } catch (SQLException e) {
+            System.out.println("DB Error: " + e.getMessage());
+        }
+    }
 
-        // Shotgun
-        Shotgun rss1 = new Shotgun("Citadel", "RSS-1", "12 Gauge");
-        rss1.addAttachment(romeo5);
+    // CREATE
+    public static void addFirearm(Scanner input) {
+        System.out.print("Firearm name: ");
+        String name = input.nextLine();
 
-        // Store all firearms
-        ArrayList<Firearm> inventory = new ArrayList<>();
-        inventory.add(glock19x);
-        inventory.add(canik);
-        inventory.add(glock26);
-        inventory.add(db15);
-        inventory.add(blackout);
-        inventory.add(rss1);
+        System.out.print("Caliber/Gauge: ");
+        String caliber = input.nextLine();
 
-        // Display
-        for (Firearm gun : inventory) {
-            gun.displayInfo();
-            System.out.println();
+        System.out.print("Accessory: ");
+        String accessory = input.nextLine();
+
+        System.out.print("Purpose: ");
+        String purpose = input.nextLine();
+
+        String sql = "INSERT INTO firearms(name, caliber, accessory, purpose) VALUES(?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, name);
+            pstmt.setString(2, caliber);
+            pstmt.setString(3, accessory);
+            pstmt.setString(4, purpose);
+            pstmt.executeUpdate();
+
+            System.out.println("✔ Firearm added.");
+
+        } catch (SQLException e) {
+            System.out.println("Insert Error: " + e.getMessage());
+        }
+    }
+
+    // READ
+    public static void viewFirearms() {
+        String sql = "SELECT * FROM firearms";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            System.out.println("\n===== FIREARM INVENTORY =====");
+
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Name: " + rs.getString("name"));
+                System.out.println("Caliber: " + rs.getString("caliber"));
+                System.out.println("Accessory: " + rs.getString("accessory"));
+                System.out.println("Purpose: " + rs.getString("purpose"));
+                System.out.println("-----------------------------");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Read Error: " + e.getMessage());
+        }
+    }
+
+    // UPDATE
+    public static void updateFirearm(Scanner input) {
+        System.out.print("Enter ID to update: ");
+        int id = input.nextInt();
+        input.nextLine();
+
+        System.out.print("New name: ");
+        String name = input.nextLine();
+
+        System.out.print("New caliber: ");
+        String caliber = input.nextLine();
+
+        System.out.print("New accessory: ");
+        String accessory = input.nextLine();
+
+        System.out.print("New purpose: ");
+        String purpose = input.nextLine();
+
+        String sql = "UPDATE firearms SET name=?, caliber=?, accessory=?, purpose=? WHERE id=?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, name);
+            pstmt.setString(2, caliber);
+            pstmt.setString(3, accessory);
+            pstmt.setString(4, purpose);
+            pstmt.setInt(5, id);
+
+            int rows = pstmt.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("✔ Updated.");
+            } else {
+                System.out.println("No record found.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Update Error: " + e.getMessage());
+        }
+    }
+
+    // DELETE
+    public static void deleteFirearm(Scanner input) {
+        System.out.print("Enter ID to delete: ");
+        int id = input.nextInt();
+
+        String sql = "DELETE FROM firearms WHERE id=?";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+
+            int rows = pstmt.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("✔ Deleted.");
+            } else {
+                System.out.println("No record found.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Delete Error: " + e.getMessage());
         }
     }
 }
