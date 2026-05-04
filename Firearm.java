@@ -49,6 +49,20 @@ public abstract class Firearm implements Trackable {
         return model;
     }
 }
+        System.out.println("Attachments:");
+        for (Attachment a : attachments) {
+            System.out.println("- " + a.getName());
+        }
+
+        trackItem();
+    }
+
+    public abstract void firearmType();
+
+    protected String getModel() {
+        return model;
+    }
+}
     public String getType() {
         return type;
     }
