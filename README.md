@@ -2,59 +2,28 @@
 Darrien Raines-Boswell  
 
 ## Overview  
-This project demonstrates object-oriented programming concepts through the development of a firearm inventory and training application.
+This project demonstrates object-oriented programming concepts through the development of a firearm inventory application.
 
-The application applies:
-- Inheritance  
-- Composition  
-- Interfaces  
-- Polymorphism  
+## Phase #3 Enhancements  
+This phase expands the application by implementing:
 
----
+- Abstraction using an abstract base class (Firearm)
+- Constructors for object initialization
+- Access specifiers to control data visibility and protect class data
 
-## Phase #1  
-Phase 1 focused on planning and design.
+## Concepts Demonstrated  
 
-Included:
-- Application structure design  
-- Class planning  
-- User interaction outline  
-
-This phase established the foundation for implementing the application.
-
----
-
-## Phase #2  
-Phase 2 focuses on implementation of object-oriented concepts.
-
-Included:
-- Java application with multiple classes  
-- Inheritance (Firearm → Rifle, Pistol)  
+- Inheritance (Firearm, Pistol, Rifle, Shotgun)  
 - Composition (Firearm has Attachments)  
-- Interface implementation (Trackable)  
-- Polymorphism through method behavior  
+- Interface Usage (Trackable)  
+- Abstraction (Abstract Firearm class)  
+- Encapsulation (Private fields with controlled access)  
+- Polymorphism (Method overriding in subclasses)  
 
----
+## How It Works  
+The application creates multiple firearm objects including pistols, rifles, and a shotgun. Each firearm can contain multiple attachments. The system stores these objects and displays their information through the main application.
 
-## Files Included  
-- App.java  
-- Firearm.java  
-- Rifle.java  
-- Pistol.java  
-- Attachment.java  
-- Trackable.java  
-- Design document  
+## Technologies Used  
 
----
-
-## How to Run  
-1. Open project in Java IDE or VS Code  
-2. Compile all files  
-3. Run App.java  
-4. View output in console  
-
----
-
-## Author  
-Darrien Raines-Boswell  
-SDC330  
+- Java  
+- Object-Oriented Programming Principles
