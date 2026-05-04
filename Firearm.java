@@ -1,40 +1,54 @@
 /*
  * Name: Darrien Raines-Boswell
- * Date: April 16, 2026
- * Purpose: Base class for all firearm objects. This class stores shared firearm data,
- * demonstrates composition by containing Attachment objects, and implements the
- * Trackable interface.
+ * Purpose: Abstract base class for all firearms
  */
 
 import java.util.ArrayList;
 
-public class Firearm implements Trackable {
-    private String name;
-    private String manufacturer;
+public abstract class Firearm implements Trackable {
+
+    private String brand;
+    private String model;
     private String caliber;
-    private String type;
-    private ArrayList<Attachment> attachments;
 
-    public Firearm(String name, String manufacturer, String caliber, String type) {
-        this.name = name;
-        this.manufacturer = manufacturer;
+    protected ArrayList<Attachment> attachments;
+
+    public Firearm() {
+        this.brand = "Unknown";
+        this.model = "Unknown";
+        this.caliber = "Unknown";
+        attachments = new ArrayList<>();
+    }
+
+    public Firearm(String brand, String model, String caliber) {
+        this.brand = brand;
+        this.model = model;
         this.caliber = caliber;
-        this.type = type;
-        this.attachments = new ArrayList<>();
+        attachments = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public void addAttachment(Attachment attachment) {
+        attachments.add(attachment);
     }
 
-    public String getManufacturer() {
-        return manufacturer;
+    public void displayInfo() {
+        System.out.println("Firearm: " + brand + " " + model);
+        System.out.println("Caliber: " + caliber);
+
+        System.out.println("Attachments:");
+        for (Attachment a : attachments) {
+            System.out.println("- " + a.getName());
+        }
+
+        trackItem();
     }
 
-    public String getCaliber() {
-        return caliber;
-    }
+    public abstract void firearmType();
 
+    protected String getModel() {
+        return model;
+    }
+}
     public String getType() {
         return type;
     }
