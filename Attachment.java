@@ -1,29 +1,31 @@
 /*
- * Name: Darrien Raines-Boswell
- * Date: April 16, 2026
- * Purpose: Represents an attachment that belongs to a firearm. This class is used to
- * demonstrate composition because a Firearm has Attachment objects.
+ * Purpose: Represents firearm attachments
  */
 
 public class Attachment {
-    private String name;
-    private String category;
 
-    public Attachment(String name, String category) {
+    private String name;
+
+    public Attachment(String name) {
         this.name = name;
-        this.category = category;
     }
 
     public String getName() {
         return name;
     }
+}/*
+ * Purpose: Represents firearm attachments
+ */
 
-    public String getCategory() {
-        return category;
+public class Attachment {
+
+    private String name;
+
+    public Attachment(String name) {
+        this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return category + ": " + name;
+    public String getName() {
+        return name;
     }
 }
