@@ -7,7 +7,7 @@ public class App {
 
         Inventory inventory = new Inventory("Frontline Defense Inventory");
 
-        Handgun glock19x = new Handgun(
+        Pistol glock19x = new Pistol(
                 "Glock 19X",
                 "9mm",
                 17,
@@ -15,7 +15,7 @@ public class App {
                 "TLR-8X Tactical Light"
         );
 
-        Handgun glock26 = new Handgun(
+        Pistol glock26 = new Pistol(
                 "Glock 26",
                 "9mm",
                 15,
