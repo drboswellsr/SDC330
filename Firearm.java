@@ -1,40 +1,40 @@
-/*
- * Name: Darrien Raines-Boswell
- * Purpose: Abstract base class for all firearms
- */
+// Darrien Raines-Boswell
+// Abstract parent class for all firearms
 
-import java.util.ArrayList;
-
-public abstract class Firearm implements Trackable {
-
-    private String brand;
-    private String model;
+public abstract class Firearm {
+    private String name;
     private String caliber;
 
-    protected ArrayList<Attachment> attachments;
-
-    public Firearm() {
-        this.brand = "Unknown";
-        this.model = "Unknown";
-        this.caliber = "Unknown";
-        attachments = new ArrayList<>();
-    }
-
-    public Firearm(String brand, String model, String caliber) {
-        this.brand = brand;
-        this.model = model;
+    public Firearm(String name, String caliber) {
+        this.name = name;
         this.caliber = caliber;
-        attachments = new ArrayList<>();
     }
 
-    public void addAttachment(Attachment attachment) {
-        attachments.add(attachment);
+    public String getName() {
+        return name;
     }
 
-    public void displayInfo() {
-        System.out.println("Firearm: " + brand + " " + model);
-        System.out.println("Caliber: " + caliber);
+    public String getCaliber() {
+        return caliber;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCaliber(String caliber) {
+        this.caliber = caliber;
+    }
+
+    public abstract String getFirearmType();
+
+    @Override
+    public String toString() {
+        return "Type: " + getFirearmType() +
+                "\nName: " + name +
+                "\nCaliber: " + caliber;
+    }
+}
         System.out.println("Attachments:");
         for (Attachment a : attachments) {
             System.out.println("- " + a.getName());
