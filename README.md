@@ -1,4 +1,4 @@
-# SDC330 Project  
+# Frontline Defense Inventory Management System 
 Darrien Raines-Boswell  
 
 ## Overview  
